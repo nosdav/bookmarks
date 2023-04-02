@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Bookmark Manager</title>
     <style>
       body {
@@ -12,21 +12,21 @@
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-        background-color: #F8F8F8;
+        background-color: #f8f8f8;
       }
       .container {
         max-width: 800px;
         margin: 0 50px;
         padding: 20px;
-        background-color: #FFF;
+        background-color: #fff;
         border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
       h1 {
         text-align: center;
         margin-top: 0;
       }
-      input[type="text"] {
+      input[type='text'] {
         width: 100%;
         padding: 10px;
         margin-bottom: 20px;
@@ -35,7 +35,7 @@
         border-radius: 4px;
       }
       button {
-        background-color: #4CAF50;
+        background-color: #4caf50;
         color: white;
         padding: 10px 20px;
         border: none;
@@ -67,19 +67,190 @@
         margin-right: 10px;
       }
     </style>
+    <script type="application/ld+json" id="data">
+      {
+        "@context": "https://schema.org"
+      }
+    </script>
+    <script type="module">
+      import { html, render, Component } from './js/spux.js'
+      import './js/dior.js'
+      console.log(di.data)
+
+      const serverUrl = 'https://nosdav.nostr.rocks'
+      var userHex, filename, contentType, path
+      var isJson = false
+
+      function getQueryStringValue(key) {
+        const queryString = window.location.search.substring(1)
+        const queryParams = new URLSearchParams(queryString)
+        return queryParams.get(key)
+      }
+
+      class App extends Component {
+        constructor() {
+          super()
+          this.state = {
+            userHex: null,
+            filename: null,
+            contentType: null,
+            path: null,
+            isJson: false,
+            bookmarks: []
+          }
+          this.login = this.login.bind(this)
+          this.save = this.save.bind(this)
+          this.add = this.add.bind(this)
+          this.delete = this.delete.bind(this)
+        }
+
+        delete(bookmark) {
+          console.log('delete', bookmark)
+          var url = bookmark.url
+          this.state.bookmarks = this.state.bookmarks.filter(
+            bookmark => bookmark.url !== url
+          )
+
+          this.setState({ bookmarks: this.state.bookmarks })
+          console.log(this.state.bookmarks)
+          this.save()
+        }
+
+        add() {
+          const url = document.getElementById('bookmark-input').value
+          const bookmark = {
+            id: Date.now(),
+            url: url
+          }
+          this.state.bookmarks.push(bookmark)
+          this.setState({ bookmarks: this.state.bookmarks })
+          this.save()
+        }
+
+        async login() {
+          userHex = await window.nostr.getPublicKey()
+          console.log(`Logged in with public key: ${userHex}`)
+          this.setState({ userHex: userHex })
+          this.loadFile()
+        }
+
+        // Load the file content from the server
+        loadFile() {
+          if (!userHex) {
+            alert('Please login first')
+            return
+          }
+
+          isJson = true
+          filename = 'bookmarks.json'
+          path = `${serverUrl}/${userHex}/${filename}`
+          contentType = 'application/json'
+          this.setState({ path: path })
+
+          fetch(path, {
+            headers: {
+              Authorization: `Nostr ${userHex}`
+            }
+          })
+            .then(response => {
+              if (response.status === 200) {
+                return response.text()
+              } else {
+                throw new Error('Failed to load file content')
+              }
+            })
+            .then(text => {
+              this.setState({ bookmarks: JSON.parse(text) })
+            })
+            .catch(error => {
+              console.error(error)
+              fileContent.placeholder = 'Error loading file content'
+            })
+        }
+
+        save() {
+          if (!userHex) {
+            alert('Please login first')
+            return
+          }
+
+          isJson = true
+          filename = 'bookmarks.json'
+          contentType = 'application/json'
+
+          const text = JSON.stringify(this.state.bookmarks)
+
+          fetch(`${serverUrl}/${userHex}/${filename}`, {
+            method: 'PUT',
+            body: text,
+            headers: {
+              Authorization: `Nostr ${userHex}`,
+              'Content-Type': contentType,
+              'Content-Length': text.length
+            }
+          })
+            .then(response => {
+              if (response.status === 201) {
+                console.log('File saved successfully')
+              } else {
+                throw new Error('Failed to save file')
+              }
+            })
+            .catch(error => {
+              console.error(error)
+              alert('Error saving file')
+            })
+        }
+
+        render() {
+          const { userHex, filename, contentType, path, isJson } = this.state
+          return html`
+            <div class="container">
+              <h1>Bookmark Manager</h1>
+              <input
+                type="text"
+                id="bookmark-input"
+                placeholder="Enter a new bookmark URL"
+              />
+
+              ${this.state.userHex
+                ? html`
+                    <button onClick="${this.add}" type="button">
+                      Add Bookmark
+                    </button>
+                    <a target="_blank" href="${this.state.path}"
+                      ><button type="submit">Download</button></a
+                    >
+                  `
+                : html` <button id="login" onClick="${this.login}">
+                    Login
+                  </button>`}
+
+              <ul id="bookmark-list">
+                <hr />
+                ${this.state.bookmarks.map(
+                  bookmark => html`
+                    <li>
+                      <a target="_blank" href=${bookmark.url}
+                        >${bookmark.url}</a
+                      >
+                      <button
+                        onClick="${this.delete.bind(this, bookmark)}"
+                        type="button"
+                      >
+                        Delete
+                      </button>
+                    </li>
+                  `
+                )}
+              </ul>
+            </div>
+          `
+        }
+      }
+
+      render(html` <${App} /> `, document.body)
+    </script>
   </head>
-  <body>
-    <div class="container">
-      <h1>Bookmark Manager</h1>
-      <form id="bookmark-form">
-        <input type="text" id="bookmark-input" placeholder="Enter a new bookmark URL">
-        <button type="submit">Add Bookmark</button>
-        <button type="button" id="clear-bookmarks">Clear Bookmarks</button>
-      </form>
-      <ul id="bookmark-list"></ul>
-    </div>
-
-    <script src="bookmark.js"></script>
-  </body>
+  <body></body>
 </html>
-
