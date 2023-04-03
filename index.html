@@ -14,12 +14,6 @@
       import { html, render, Component } from './js/spux.js'
       import './js/dior.js'
 
-      // init
-      const serverUrl =
-        getQueryStringValue('storage') || 'https://nosdav.nostr.rocks'
-      var userHex, filename, contentType, path
-      var isJson = false
-
       // utils
       const getQueryStringValue = key => {
         const queryParams = new URLSearchParams(
@@ -27,6 +21,12 @@
         )
         return queryParams.get(key)
       }
+
+      // init
+      const serverUrl =
+        getQueryStringValue('storage') || 'https://nosdav.nostr.rocks'
+      var userHex, filename, contentType, path
+      var isJson = false
 
       async function generateHeader(pubkey) {
         const event = {
