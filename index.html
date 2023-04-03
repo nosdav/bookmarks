@@ -10,18 +10,21 @@
       }
     </script>
     <script type="module">
+      // imports
       import { html, render, Component } from './js/spux.js'
       import './js/dior.js'
-      console.log(di.data)
 
+      // init
       const serverUrl =
         getQueryStringValue('storage') || 'https://nosdav.nostr.rocks'
       var userHex, filename, contentType, path
       var isJson = false
 
-      function getQueryStringValue(key) {
-        const queryString = window.location.search.substring(1)
-        const queryParams = new URLSearchParams(queryString)
+      // utils
+      const getQueryStringValue = key => {
+        const queryParams = new URLSearchParams(
+          window.location.search.substring(1)
+        )
         return queryParams.get(key)
       }
 
@@ -40,6 +43,7 @@
         return `Nostr ${btoa(JSON.stringify(signedEvent))}`
       }
 
+      // app
       class App extends Component {
         constructor() {
           super()
