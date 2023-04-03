@@ -28,11 +28,11 @@
       var userHex, filename, contentType, path
       var isJson = false
 
-      async function generateHeader(pubkey) {
+      async function generateHeader(url) {
         const event = {
           kind: 27235,
           created_at: Math.floor(Date.now() / 1000),
-          tags: [['url', path]],
+          tags: [['url', url]],
           content: ''
         }
         const signedEvent = await window.nostr.signEvent(event)
@@ -104,13 +104,7 @@
           contentType = 'application/json'
           this.setState({ path })
 
-          var authorization = await generateHeader(userHex)
-
-          fetch(path, {
-            headers: {
-              Authorization: authorization
-            }
-          })
+          fetch(path, {})
             .then(response => {
               if (response.status === 200) {
                 return response.text()
@@ -139,7 +133,7 @@
 
           const text = JSON.stringify(this.state.bookmarks)
 
-          var authorization = await generateHeader(userHex)
+          var authorization = await generateHeader(serverUrl)
 
           fetch(`${serverUrl}/${userHex}/${filename}`, {
             method: 'PUT',
