@@ -19,7 +19,7 @@ export class App extends Component {
   }
 
   async componentDidMount() {
-    await this.userLogin();
+    // await this.userLogin();
   }
 
   updateNewBookmarkUrl = (event) => {
@@ -86,14 +86,15 @@ export class App extends Component {
               <button onClick="${this.addBookmark}" type="button">
                 Add Bookmark
               </button>
+              <br />
+              <br />
             `
         : html` <button id="login" onClick="${this.userLogin}">
               Login
             </button>`}
 
         <ul id="bookmark-list">
-          <hr />
-          ${bookmarks.map(
+          ${bookmarks?.reverse().map(
           (bookmark) => html`
               <li>
                 <a target="_blank" href=${bookmark.url}>${bookmark.url}</a>
