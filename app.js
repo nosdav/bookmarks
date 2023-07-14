@@ -3,7 +3,13 @@ import { getPath, getQueryStringValue, loadFile, saveFile } from './util.js';
 import './js/dior.js'
 
 
+/**
+ * Class representing the application.
+ */
 export class App extends Component {
+  /**
+   * Create a new application instance.
+   */
   constructor() {
     super();
     const serverUrl = getQueryStringValue('storage') || di.data.storage || 'https://nosdav.net'
@@ -20,14 +26,25 @@ export class App extends Component {
     };
   }
 
+  /**
+   * Lifecycle method that is called after a component is mounted.
+   */
   async componentDidMount() {
     // await this.userLogin();
   }
 
+  /**
+   * Update the URL of the new bookmark.
+   *
+   * @param {Event} event - The input event.
+   */
   updateNewBookmarkUrl = (event) => {
     this.setState({ newBookmarkUrl: event.target.value });
   }
 
+  /**
+   * Log in the user and load the bookmarks.
+   */
   userLogin = async () => {
     const userPublicKey = await window.nostr.getPublicKey();
     console.log(`Logged in with public key: ${userPublicKey}`);
@@ -35,6 +52,9 @@ export class App extends Component {
     this.loadBookmarks();
   }
 
+  /**
+   * Load the bookmarks from the server.
+   */
   loadBookmarks = async () => {
     const { userPublicKey, serverUrl, mode, filename } = this.state;
     const fileContent = await loadFile(serverUrl, userPublicKey, filename, mode);
@@ -44,6 +64,9 @@ export class App extends Component {
     }
   };
 
+  /**
+   * Save the bookmarks to the server.
+   */
   saveBookmarks = async () => {
     const { bookmarks, userPublicKey, serverUrl, mode, filename } = this.state;
     const fileContent = JSON.stringify(bookmarks);
@@ -54,6 +77,9 @@ export class App extends Component {
     }
   };
 
+  /**
+   * Add a new bookmark to the list.
+   */
   addBookmark = () => {
     const { newBookmarkUrl, bookmarks } = this.state;
     if (newBookmarkUrl) {
@@ -62,6 +88,11 @@ export class App extends Component {
     }
   };
 
+  /**
+   * Delete a bookmark from the list.
+   *
+   * @param {Object} bookmarkToDelete - The bookmark to delete.
+   */
   deleteBookmark = (bookmarkToDelete) => {
     const updatedBookmarks = this.state.bookmarks.filter(
       (bookmark) => bookmark.url !== bookmarkToDelete.url
@@ -69,6 +100,11 @@ export class App extends Component {
     this.setState({ bookmarks: updatedBookmarks }, this.saveBookmarks);
   };
 
+  /**
+   * Render the application.
+   *
+   * @return {string} The HTML to render.
+   */
   render() {
     const { userPublicKey, newBookmarkUrl, bookmarks } = this.state;
 
