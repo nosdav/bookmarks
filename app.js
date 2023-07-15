@@ -132,7 +132,7 @@ export class App extends Component {
             </button>`}
 
         <ul id="bookmark-list">
-          ${bookmarks?.reverse().map(
+          ${bookmarks?.map(
           (bookmark) => html`
               <li>
                 <a target="_blank" href=${bookmark.url}>${bookmark.url}</a>
@@ -149,7 +149,6 @@ export class App extends Component {
       </div>
    
       `;
-
   }
 }
 
