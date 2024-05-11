@@ -48,6 +48,11 @@ export class App extends Component {
    */
   userLogin = async () => {
     const userPublicKey = await window.nostr.getPublicKey();
+    Swal.fire({
+      title: "Logged in!",
+      text: "Logged in with public key!",
+      icon: "success"
+    });
     console.log(`Logged in with public key: ${userPublicKey}`);
     await this.setState({ userPublicKey: userPublicKey });
     this.loadBookmarks();
