@@ -1,5 +1,5 @@
 import { html, Component, render } from './js/spux.js';
-import { getPath, getQueryStringValue, loadFile, saveFile } from './util.js';
+import { getQueryStringValue, loadFile, saveFile } from './util.js';
 import './js/dior.js'
 
 
@@ -108,6 +108,9 @@ export class App extends Component {
   render() {
     const { userPublicKey, newBookmarkUrl, bookmarks } = this.state;
 
+    let displayBookmarks = bookmarks
+    displayBookmarks?.reverse()
+
     return html`
       <div class="container">
         <h1>Bookmark Manager</h1>
@@ -132,7 +135,7 @@ export class App extends Component {
             </button>`}
 
         <ul id="bookmark-list">
-          ${bookmarks?.reverse().map(
+          ${displayBookmarks?.map(
           (bookmark) => html`
               <li>
                 <a target="_blank" href=${bookmark.url}>${bookmark.url}</a>
