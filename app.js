@@ -1,5 +1,6 @@
 import { html, Component, render } from './js/spux.js';
 import { getQueryStringValue, loadFile, saveFile } from './util.js';
+import GithubRibbon from './components/GithubRibbon.js'
 import './js/dior.js'
 
 
@@ -112,6 +113,7 @@ export class App extends Component {
     displayBookmarks?.reverse()
 
     return html`
+      <${GithubRibbon} repo="https://github.com/nosdav/pastebin/" />    
       <div class="container">
         <h1>Bookmark Manager</h1>
         <input
