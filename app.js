@@ -65,7 +65,8 @@ export class App extends Component {
 
         });
       }
-    } catch {
+    } catch (error) {
+      console.error(error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
