@@ -109,8 +109,8 @@ export class App extends Component {
   render() {
     const { userPublicKey, newBookmarkUrl, bookmarks } = this.state;
 
-    let displayBookmarks = bookmarks
-    displayBookmarks?.reverse()
+    // Sort bookmarks in reverse chronological order (newest to oldest)
+    const sortedBookmarks = bookmarks.slice().reverse()
 
     return html`
       <${GithubRibbon} repo="https://github.com/nosdav/pastebin/" />    
@@ -123,39 +123,41 @@ export class App extends Component {
           value="${newBookmarkUrl}"
           onInput="${this.updateNewBookmarkUrl}"
         />
-
+  
         ${userPublicKey
         ? html`
-              <button onClick="${this.addBookmark}" type="button">
-                Add Bookmark
-              </button>
-              <br />
-              <br />
-            `
-        : html` <button id="login" onClick="${this.userLogin}">
-              Login
-            </button>`}
-
-        <ul id="bookmark-list">
-          ${displayBookmarks?.map(
-          (bookmark) => html`
-              <li>
-                <a target="_blank" href=${bookmark.url}>${bookmark.url}</a>
-                <button
-                  onClick="${() => this.deleteBookmark(bookmark)}"
-                  type="button"
-                >
-                  Delete
+                <button onClick="${this.addBookmark}" type="button">
+                  Add Bookmark
                 </button>
-              </li>
-            `
+                <br />
+                <br />
+              `
+        : html` <button id="login" onClick="${this.userLogin}">
+                Login
+              </button>`}
+  
+        <ul id="bookmark-list">
+            ${sortedBookmarks.map(
+          (bookmark) => html`
+                <li>
+                  <a target="_blank" href=${bookmark.url}>${bookmark.url}</a>
+                  <button
+                    onClick="${() => this.deleteBookmark(bookmark)}"
+                    type="button"
+                  >
+                    Delete
+                  </button>
+                </li>
+              `
         )}
-        </ul>
-      </div>
-   
-      `;
+          </ul>
+        </div>
+     
+        `;
 
   }
+
+
 }
 
 render(html` <${App} /> `, document.body)
