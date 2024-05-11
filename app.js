@@ -54,7 +54,8 @@ export class App extends Component {
         Swal.fire({
           title: "Logged in!",
           text: "Logged in with public key!",
-          icon: "success"
+          icon: "success",
+          timer: 1500
         });
       } else {
         Swal.fire({
