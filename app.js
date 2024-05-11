@@ -47,12 +47,35 @@ export class App extends Component {
    * Log in the user and load the bookmarks.
    */
   userLogin = async () => {
-    const userPublicKey = await window.nostr.getPublicKey();
-    Swal.fire({
-      title: "Logged in!",
-      text: "Logged in with public key!",
-      icon: "success"
-    });
+    var userPublicKey
+    try {
+      userPublicKey = await window.nostr.getPublicKey();
+      if (userPublicKey) {
+        Swal.fire({
+          title: "Logged in!",
+          text: "Logged in with public key!",
+          icon: "success"
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+          footer: '<p><a target="_blank" href="https://nostrapps.github.io/extensions/">Please install a nostr extension</a></p>'
+
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+        footer: '<p><a target="_blank" href="https://nostrapps.github.io/extensions/">Please install a nostr extension</a></p>'
+      });
+
+    }
+
     console.log(`Logged in with public key: ${userPublicKey}`);
     await this.setState({ userPublicKey: userPublicKey });
     this.loadBookmarks();
