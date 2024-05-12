@@ -1,62 +1,87 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Arial', sans-serif; /* Updated font family for better readability */
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #f8f8f8;
+  background-color: #e9ecef; /* Soft gray background for less strain on eyes */
 }
+
 .container {
   max-width: 800px;
-  margin: 0 50px;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 20px; /* Consistent margin for all sides */
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 12px; /* Slightly larger radius for a softer look */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Smoother shadow */
 }
+
 h1 {
+  font-size: 24px; /* Larger font size */
+  color: #333; /* Darker color for better contrast */
   text-align: center;
   margin-top: 0;
+  margin-bottom: 20px; /* Added bottom margin */
 }
+
 input[type='text'] {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
+  padding: 12px 15px; /* Larger padding for better interaction area */
+  margin-bottom: 15px;
   box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 2px solid #dee2e6; /* Lighter and thicker border for input */
+  border-radius: 6px; /* Consistent border-radius */
+  font-size: 16px; /* Larger font size */
 }
+
 button {
-  background-color: #4caf50;
+  background-color: #007bff; /* Brighter primary color for buttons */
   color: white;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  margin-right: 10px;
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
+
 button:hover {
-  background-color: #3e8e41;
+  background-color: #0056b3; /* Darker shade on hover */
 }
-button:last-child {
-  margin-right: 0;
-}
+
 ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 li {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #dee2e6; /* Softer border color */
+  border-radius: 6px;
+  margin-bottom: 10px; /* Reduced space between items */
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #f8f9fa; /* Very light background for each item */
+  transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
 }
+
+li:hover {
+  background-color: #e2e6ea; /* Highlight item on hover */
+  transform: translateX(5px); /* Slight move to indicate selection */
+}
+
 li span {
   margin-right: 10px;
+}
+
+a {
+  text-decoration: none; /* Remove underline from links */
+  color: #007bff; /* Color for links to match button color */
+}
+
+a:hover {
+  text-decoration: underline; /* Underline on hover for links */
 }
