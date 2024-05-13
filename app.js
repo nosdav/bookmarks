@@ -177,6 +177,7 @@ export class App extends Component {
                   <button
                     onClick="${() => this.deleteBookmark(bookmark)}"
                     type="button"
+                    style="margin-left: 20px;"
                   >
                     Delete
                   </button>
