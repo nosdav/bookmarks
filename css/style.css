@@ -1,64 +1,71 @@
 body {
-  font-family: 'Arial', sans-serif; /* Updated font family for better readability */
+  font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #e9ecef; /* Soft gray background for less strain on eyes */
+  background-color: #e9ecef;
 }
 
 .container {
   max-width: 800px;
-  margin: 20px; /* Consistent margin for all sides */
+  margin: 20px;
   padding: 25px;
   background-color: #ffffff;
-  border-radius: 12px; /* Slightly larger radius for a softer look */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Smoother shadow */
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 h1 {
-  font-size: 24px; /* Larger font size */
-  color: #333; /* Darker color for better contrast */
+  font-size: 24px;
+  color: #333;
   text-align: center;
   margin-top: 0;
-  margin-bottom: 20px; /* Added bottom margin */
+  margin-bottom: 20px;
+}
+
+.input-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px; /* Adequate spacing below the input field */
 }
 
 input[type='text'] {
-  width: 100%;
-  padding: 12px 15px; /* Larger padding for better interaction area */
-  margin-bottom: 15px;
+  width: 83%;
+  flex-grow: 1;
+  padding: 12px 15px;
   box-sizing: border-box;
-  border: 2px solid #dee2e6; /* Lighter and thicker border for input */
-  border-radius: 6px; /* Consistent border-radius */
-  font-size: 16px; /* Larger font size */
+  border: 2px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 16px;
 }
 
 button {
-  background-color: #007bff; /* Brighter primary color for buttons */
+  background-color: #007bff;
   color: white;
   padding: 12px 20px;
   border: none;
   border-radius: 6px;
+  margin-left: 10px;
   cursor: pointer;
-  transition: background-color 0.3s; /* Smooth transition for hover effect */
+  transition: background-color 0.3s;
 }
 
-delete-button {
-  background-color: #98a1aa; /* Brighter primary color for buttons */
+.delete-button {
   color: white;
-  margin-left: 20px;
-  padding: 12px 20px;
+  padding: 12px 12px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s; /* Smooth transition for hover effect */
+  transition: background-color 0.3s;
 }
 
-button:hover {
-  background-color: #0056b3; /* Darker shade on hover */
+button:hover,
+.delete-button:hover {
+  background-color: #0056b3;
 }
 
 ul {
@@ -69,19 +76,19 @@ ul {
 
 li {
   padding: 12px;
-  border: 1px solid #dee2e6; /* Softer border color */
+  border: 1px solid #dee2e6;
   border-radius: 6px;
-  margin-bottom: 10px; /* Reduced space between items */
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f8f9fa; /* Very light background for each item */
-  transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+  background-color: #f8f9fa;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 li:hover {
-  background-color: #e2e6ea; /* Highlight item on hover */
-  transform: translateX(5px); /* Slight move to indicate selection */
+  background-color: #e2e6ea;
+  transform: translateX(5px);
 }
 
 li span {
@@ -89,10 +96,10 @@ li span {
 }
 
 a {
-  text-decoration: none; /* Remove underline from links */
-  color: #007bff; /* Color for links to match button color */
+  text-decoration: none;
+  color: #007bff;
 }
 
 a:hover {
-  text-decoration: underline; /* Underline on hover for links */
+  text-decoration: underline;
 }

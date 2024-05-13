@@ -151,7 +151,8 @@ export class App extends Component {
     return html`
       <${GithubRibbon} repo="https://github.com/nosdav/pastebin/" />
       <div class="container">
-        <h1>Bookmark Manager</h1>
+        <h1>Bookmarks</h1>
+        ${userPublicKey ? html`
         <input
           type="text"
           id="bookmark-input"
@@ -160,14 +161,13 @@ export class App extends Component {
           onInput="${this.updateNewBookmarkUrl}"
           onKeyPress="${this.handleKeyPress}"  // Added handler for key press
         />
-        ${userPublicKey ? html`
                 <button onClick="${this.addBookmark}" type="button">
-                  Add Bookmark
+                  +
                 </button>
                 <br /><br />
               ` : html`
-                <button id="login" onClick="${this.userLogin}">
-                  Login
+                <button id="login" class="width: 100%;" onClick="${this.userLogin}">
+                  Login To App
                 </button>`}
         <ul id="bookmark-list">
             ${sortedBookmarks.map(
@@ -179,7 +179,7 @@ export class App extends Component {
                     type="button"
                     class="delete-button"
                   >
-                  🗑️
+                   🗑️
                   </a>
                 </li>
               `
