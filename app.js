@@ -35,6 +35,18 @@ export class App extends Component {
   }
 
   /**
+   * Handle key press in the bookmark input.
+   *
+   * @param {Event} event - The keypress event.
+   */
+  handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      this.addBookmark();
+    }
+  }
+
+
+  /**
    * Update the URL of the new bookmark.
    *
    * @param {Event} event - The input event.
@@ -130,11 +142,6 @@ export class App extends Component {
     this.setState({ bookmarks: updatedBookmarks }, this.saveBookmarks);
   };
 
-  /**
-   * Render the application.
-   *
-   * @return {string} The HTML to render.
-   */
   render() {
     const { userPublicKey, newBookmarkUrl, bookmarks } = this.state;
 
@@ -142,7 +149,7 @@ export class App extends Component {
     const sortedBookmarks = bookmarks.slice().reverse()
 
     return html`
-      <${GithubRibbon} repo="https://github.com/nosdav/pastebin/" />    
+      <${GithubRibbon} repo="https://github.com/nosdav/pastebin/" />
       <div class="container">
         <h1>Bookmark Manager</h1>
         <input
@@ -151,40 +158,35 @@ export class App extends Component {
           placeholder="Enter a new bookmark URL"
           value="${newBookmarkUrl}"
           onInput="${this.updateNewBookmarkUrl}"
+          onKeyPress="${this.handleKeyPress}"  // Added handler for key press
         />
-  
-        ${userPublicKey
-        ? html`
+        ${userPublicKey ? html`
                 <button onClick="${this.addBookmark}" type="button">
                   Add Bookmark
                 </button>
-                <br />
-                <br />
-              `
-        : html` <button id="login" onClick="${this.userLogin}">
-                Login
-              </button>`}
-  
+                <br /><br />
+              ` : html`
+                <button id="login" onClick="${this.userLogin}">
+                  Login
+                </button>`}
         <ul id="bookmark-list">
             ${sortedBookmarks.map(
-          (bookmark) => html`
+      (bookmark) => html`
                 <li>
                   <a target="_blank" href=${bookmark.url}>${bookmark.url}</a>
                   <button
                     onClick="${() => this.deleteBookmark(bookmark)}"
-                    style="margin-left: 20px;"
                     type="button"
                   >
                     Delete
                   </button>
                 </li>
               `
-        )}
+    )}
           </ul>
         </div>
      
         `;
-
   }
 
 
