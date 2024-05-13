@@ -174,13 +174,13 @@ export class App extends Component {
       (bookmark) => html`
                 <li>
                   <a target="_blank" href=${bookmark.url}>${bookmark.url}</a>
-                  <button
+                  <a
                     onClick="${() => this.deleteBookmark(bookmark)}"
                     type="button"
-                    style="margin-left: 20px;"
+                    class="delete-button"
                   >
-                    Delete
-                  </button>
+                  🗑️
+                  </a>
                 </li>
               `
     )}

@@ -46,6 +46,17 @@ button {
   transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
 
+delete-button {
+  background-color: #98a1aa; /* Brighter primary color for buttons */
+  color: white;
+  margin-left: 20px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
 button:hover {
   background-color: #0056b3; /* Darker shade on hover */
 }
