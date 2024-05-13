@@ -172,6 +172,7 @@ export class App extends Component {
                   <a target="_blank" href=${bookmark.url}>${bookmark.url}</a>
                   <button
                     onClick="${() => this.deleteBookmark(bookmark)}"
+                    style="margin-left: 20px;"
                     type="button"
                   >
                     Delete
