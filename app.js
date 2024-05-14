@@ -151,7 +151,6 @@ export class App extends Component {
     return html`
       <${GithubRibbon} repo="https://github.com/nosdav/pastebin/" />
       <div class="container">
-        <h1>Bookmarks</h1>
         ${userPublicKey ? html`
         <input
           type="text"
@@ -167,13 +166,13 @@ export class App extends Component {
                 <br /><br />
               ` : html`
                 <button id="login" class="width: 100%;" onClick="${this.userLogin}">
-                  Login To App
+                  Login To Bookmarks
                 </button>`}
         <ul id="bookmark-list">
             ${sortedBookmarks.map(
       (bookmark) => html`
                 <li>
-                  <a target="_blank" href=${bookmark.url}>${bookmark.url}</a>
+                  <a target="_blank" href=${bookmark.url}>${bookmark.label || bookmark.url}</a>
                   <a
                     onClick="${() => this.deleteBookmark(bookmark)}"
                     type="button"
