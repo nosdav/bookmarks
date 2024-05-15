@@ -1,8 +1,8 @@
 import { html, Component, render } from './js/spux.js';
 import { getQueryStringValue, loadFile, saveFile } from './util.js';
-import GithubRibbon from './components/GithubRibbon.js'
-import './js/dior.js'
-
+import GithubRibbon from './components/GithubRibbon.js';
+import './js/dior.js';
+// import Swal from 'sweetalert2';
 
 /**
  * Class representing the application.
@@ -13,9 +13,9 @@ export class App extends Component {
    */
   constructor() {
     super();
-    const serverUrl = getQueryStringValue('storage') || di.data.storage || 'https://nosdav.net'
-    const mode = getQueryStringValue('mode') || di.data.m || 'm'
-    const uri = getQueryStringValue('uri') || di.data.uri || 'bookmarks.json'
+    const serverUrl = getQueryStringValue('storage') || di.data.storage || 'https://nosdav.net';
+    const mode = getQueryStringValue('mode') || di.data.m || 'm';
+    const uri = getQueryStringValue('uri') || di.data.uri || 'bookmarks.json';
     this.state = {
       userPublicKey: null,
       filename: uri,
@@ -35,31 +35,80 @@ export class App extends Component {
   }
 
   /**
-   * Handle key press in the bookmark input.
-   *
-   * @param {Event} event - The keypress event.
+   * Show the SweetAlert popup for adding a new bookmark.
    */
-  handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      this.addBookmark();
-    }
+  showAddBookmarkPopup = () => {
+    Swal.fire({
+      title: 'Add a new bookmark',
+      html:
+        '<input id="swal-input1" class="swal2-input" placeholder="Enter URL">' +
+        '<input id="swal-input2" class="swal2-input" placeholder="Enter label">',
+      focusConfirm: false,
+      didOpen: () => {
+        const urlInput = document.getElementById('swal-input1');
+        const labelInput = document.getElementById('swal-input2');
+        urlInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            Swal.clickConfirm();
+          }
+        });
+        labelInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            Swal.clickConfirm();
+          }
+        });
+      },
+      preConfirm: () => {
+        const url = document.getElementById('swal-input1').value;
+        const label = document.getElementById('swal-input2').value;
+        if (url) {
+          this.addBookmark(url, label);
+        }
+      }
+    });
   }
 
-
   /**
-   * Update the URL of the new bookmark.
+   * Show the SweetAlert popup for editing a bookmark.
    *
-   * @param {Event} event - The input event.
+   * @param {Object} bookmark - The bookmark to edit.
    */
-  updateNewBookmarkUrl = (event) => {
-    this.setState({ newBookmarkUrl: event.target.value });
+  showEditBookmarkPopup = (bookmark) => {
+    Swal.fire({
+      title: 'Edit bookmark',
+      html:
+        `<input id="swal-input1" class="swal2-input" placeholder="Enter URL" value="${bookmark.url}">` +
+        `<input id="swal-input2" class="swal2-input" placeholder="Enter label" value="${bookmark.label || ''}">`,
+      focusConfirm: false,
+      didOpen: () => {
+        const urlInput = document.getElementById('swal-input1');
+        const labelInput = document.getElementById('swal-input2');
+        urlInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            Swal.clickConfirm();
+          }
+        });
+        labelInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            Swal.clickConfirm();
+          }
+        });
+      },
+      preConfirm: () => {
+        const url = document.getElementById('swal-input1').value;
+        const label = document.getElementById('swal-input2').value;
+        if (url) {
+          this.editBookmark(bookmark, url, label);
+        }
+      }
+    });
   }
 
   /**
    * Log in the user and load the bookmarks.
    */
   userLogin = async () => {
-    var userPublicKey
+    var userPublicKey;
     try {
       userPublicKey = await window.nostr.getPublicKey();
       if (userPublicKey) {
@@ -75,7 +124,6 @@ export class App extends Component {
           title: "Oops...",
           text: "Something went wrong!",
           footer: '<p><a target="_blank" href="https://nostrapps.github.io/extensions/">Please install a nostr extension</a></p>'
-
         });
       }
     } catch (error) {
@@ -86,7 +134,6 @@ export class App extends Component {
         text: "Something went wrong!",
         footer: '<p><a target="_blank" href="https://nostrapps.github.io/extensions/">Please install a nostr extension</a></p>'
       });
-
     }
 
     console.log(`Logged in with public key: ${userPublicKey}`);
@@ -122,12 +169,26 @@ export class App extends Component {
   /**
    * Add a new bookmark to the list.
    */
-  addBookmark = () => {
-    const { newBookmarkUrl, bookmarks } = this.state;
-    if (newBookmarkUrl) {
-      const updatedBookmarks = [...bookmarks, { url: newBookmarkUrl }];
+  addBookmark = (url, label) => {
+    const { bookmarks } = this.state;
+    if (url) {
+      const updatedBookmarks = [...bookmarks, { url: url, label: label }];
       this.setState({ bookmarks: updatedBookmarks, newBookmarkUrl: '' }, this.saveBookmarks);
     }
+  };
+
+  /**
+   * Edit an existing bookmark in the list.
+   *
+   * @param {Object} bookmarkToEdit - The bookmark to edit.
+   * @param {string} newUrl - The new URL for the bookmark.
+   * @param {string} newLabel - The new label for the bookmark.
+   */
+  editBookmark = (bookmarkToEdit, newUrl, newLabel) => {
+    const updatedBookmarks = this.state.bookmarks.map((bookmark) =>
+      bookmark.url === bookmarkToEdit.url ? { url: newUrl, label: newLabel } : bookmark
+    );
+    this.setState({ bookmarks: updatedBookmarks }, this.saveBookmarks);
   };
 
   /**
@@ -143,10 +204,10 @@ export class App extends Component {
   };
 
   render() {
-    const { userPublicKey, newBookmarkUrl, bookmarks } = this.state;
+    const { userPublicKey, bookmarks } = this.state;
 
     // Sort bookmarks in reverse chronological order (newest to oldest)
-    const sortedBookmarks = bookmarks.slice().reverse()
+    const sortedBookmarks = bookmarks.slice().reverse();
 
     return html`
       <${GithubRibbon} repo="https://github.com/nosdav/pastebin/" />
@@ -155,41 +216,45 @@ export class App extends Component {
         <input
           type="text"
           id="bookmark-input"
-          placeholder="Enter a new bookmark URL"
-          value="${newBookmarkUrl}"
-          onInput="${this.updateNewBookmarkUrl}"
-          onKeyPress="${this.handleKeyPress}"  // Added handler for key press
+          placeholder="Click to add a new bookmark"
+          onClick="${this.showAddBookmarkPopup}"  // Show SweetAlert popup on click
+          readOnly
         />
-                <button onClick="${this.addBookmark}" type="button">
-                  +
-                </button>
-                <br /><br />
+        <br /><br />
               ` : html`
                 <button id="login" class="width: 100%;" onClick="${this.userLogin}">
                   Login To Bookmarks
                 </button>`}
-        <ul id="bookmark-list">
-            ${sortedBookmarks.map(
+                <ul id="bookmark-list">
+                ${sortedBookmarks.map(
       (bookmark) => html`
-                <li>
-                  <a target="_blank" href=${bookmark.url}>${bookmark.label || bookmark.url}</a>
-                  <a
-                    onClick="${() => this.deleteBookmark(bookmark)}"
-                    type="button"
-                    class="delete-button"
-                  >
-                   🗑️
-                  </a>
-                </li>
-              `
+                    <li>
+                      <a target="_blank" href=${bookmark.url}>${bookmark.label || bookmark.url}</a>
+                      ${'\u00A0\u00A0\u00A0'}
+                      <div class="icon-container">
+                        <a
+                          onClick="${() => this.showEditBookmarkPopup(bookmark)}"
+                          type="button"
+                          class="edit-button"
+                        >
+                          ✏️
+                        </a>
+                        <a
+                          onClick="${() => this.deleteBookmark(bookmark)}"
+                          type="button"
+                          class="delete-button"
+                        >
+                         🗑️
+                        </a>
+                      </div>
+                    </li>
+                  `
     )}
-          </ul>
-        </div>
+              </ul>
+                      </div>
      
         `;
   }
-
-
 }
 
-render(html` <${App} /> `, document.body)
+render(html` <${App} /> `, document.body);
