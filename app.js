@@ -15,7 +15,7 @@ export class App extends Component {
     super();
     const serverUrl = getQueryStringValue('storage') || di.data.storage || 'https://nosdav.net';
     const mode = getQueryStringValue('mode') || di.data.m || 'm';
-    const uri = getQueryStringValue('uri') || di.data.uri || 'bookmarks.json';
+    const uri = getQueryStringValue('uri') || di.data.uri || 'bookmarks/bookmarks.json';
     this.state = {
       userPublicKey: null,
       filename: uri,
