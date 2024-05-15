@@ -117,3 +117,10 @@ a:hover {
 .add-button:hover {
   background-color: #0056b3;
 }
+
+.icon-container a {
+  font-family: 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji',
+    'Apple Color Emoji', 'Android Emoji', 'EmojiSymbols', sans-serif;
+  font-size: 16px;
+  color: #4b4b4b;
+}

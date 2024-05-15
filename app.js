@@ -237,14 +237,14 @@ export class App extends Component {
                           type="button"
                           class="edit-button"
                         >
-                          ✏️
+                        <i class="fas fa-edit"></i>
                         </a>
                         <a
                           onClick="${() => this.deleteBookmark(bookmark)}"
                           type="button"
                           class="delete-button"
                         >
-                         🗑️
+                        <i class="fas fa-trash-alt"></i>
                         </a>
                       </div>
                     </li>
