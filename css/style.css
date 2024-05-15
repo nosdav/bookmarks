@@ -6,7 +6,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #e9ecef;
+  background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
 }
 
 .container {
@@ -44,14 +44,17 @@ input[type='text'] {
 }
 
 button {
-  background-color: #007bff;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 6px;
-  margin-left: 7px;
+  padding: 10px 20px;
+  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: none;
+  border-radius: 25px;
+  color: white;
+  transition: background 0.3s ease;
+}
+button:hover {
+  background: linear-gradient(135deg, #764ba2, #667eea);
 }
 
 .delete-button {
@@ -61,11 +64,6 @@ button {
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s;
-}
-
-button:hover,
-.delete-button:hover {
-  background-color: #0056b3;
 }
 
 ul {
