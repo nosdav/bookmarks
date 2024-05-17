@@ -210,7 +210,7 @@ export class App extends Component {
     const sortedBookmarks = bookmarks.slice().reverse();
 
     return html`
-      <${GithubRibbon} repo="https://github.com/nosdav/pastebin/" />
+      <${GithubRibbon} repo="https://github.com/nosdav/bookmarks/" />
       <div class="container">
         ${userPublicKey ? html`
         <input
