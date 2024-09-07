@@ -91,6 +91,34 @@ The main component of the application, handling state management and rendering.
 
 A component displaying a link to the GitHub repository.
 
+## JSON Schema
+
+The bookmark data is stored in a JSON format structured as follows:
+
+```json
+[
+  {
+    "url": "https://example.com",
+    "label": "Example Website",
+    "tag": ["tag1", "tag2"]
+  }
+]
+```
+
+- **url**: The URL of the website.
+- **label**: (Optional) A user-friendly label or name for the website.
+- **tag**: (Optional) An array of tags for categorizing the bookmark.
+
+### Example Usage:
+
+```json
+[{
+  "url": "https://developer.mozilla.org",
+  "label": "MDN Web Docs",
+  "tag": ["documentation", "web development"]
+}]
+```
+
 ## Contributing
 
 Contributions are welcome! Please fork this repository and submit pull requests.
